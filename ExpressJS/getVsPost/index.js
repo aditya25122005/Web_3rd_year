@@ -6,6 +6,7 @@ app.set('view engine','ejs');
 app.set('views',path.join(__dirname,'views'));  // templating files
 app.use(express.static(path.join(__dirname,'public')));  // static files
 app.use(express.urlencoded({extended:true}))  // middleware to get the form data(POST)
+app.use(express.json());  //Middleware for json data
 // root route
 app.get('/',(req,res)=>{
     res.render('index');
