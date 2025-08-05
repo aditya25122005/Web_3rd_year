@@ -8,17 +8,29 @@
 </head>
 <body>
     <h1> Displaying All the Blogs</h1>
+    
+    <form action="/blog/new" method="get">
+        <button id="add-btn">Add New Blog</button>
+    </form>
+    
     <section>
 
     <% for(let i of comments){  %>
-        <div>
+        <div id="main">
         <h1> Id is: <%= i.id %></h1>
         <h2>Name is:<%= i.username %></h2>
         <h4>Comment is: <%= i.comment%></h4>
-        <a href="/blogs/<%= i.id %>">Show</a>
 
+        <div id="anchors">
+        <a id="show" href="/blogs/<%= i.id %>">Show</a>
+        <a id="edit" href="/blogs/<%= i.id %>/edit">Edit</a>
+        <form action="/blogs/<%= i.id %>?_method=Delete" method="POST">
+            <button id="Delete">Delete</button>
+        </form>
+        
         </div>
 
+        </div>
     <% } %>
 
     </section>
