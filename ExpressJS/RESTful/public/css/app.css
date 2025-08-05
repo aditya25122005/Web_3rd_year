@@ -24,10 +24,16 @@ h4{
     height: 200px;
     background-color: rgb(144, 204, 199);
     border: 4px dashed black;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.2); 
+    border-radius: 8px;           
+    text-align: center; 
+    border: 4px dashed black;
+    margin: 20px;  
  }
  section{
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;   
  }

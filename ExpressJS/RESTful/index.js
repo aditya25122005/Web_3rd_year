@@ -64,6 +64,18 @@ app.post('/blogs',(req,res)=>{
 })
 
 
+// To show info about one particular blog
+
+app.get('/blogs/:id', (req, res) => {
+    let {id} = (req.params);
+    let foundComment = comments.find(comment => comment.id == id); // use == or parseInt(id)
+    // res.send("Show particular page")
+    console.log(typeof foundComment);
+    
+    res.render('show',{foundComment})
+});
+
+
 
 
 app.listen(8080,()=>{
