@@ -1,10 +1,10 @@
 //file 2
 
 
-let math=require('.')  
-console.log(math);
+let math=require('./index.js')  
+// console.log(math);
 
-/*
+/* output
 3.141592653589793
  [Function: ans1]
  [Function: ans2]
@@ -17,7 +17,7 @@ console.log(math);
 
 //destructure
 
-let {pie,ans1,ans2}=require('.');
+let {pie,ans1,ans2}=require('./index.js');
 console.log(pie);
 console.log(ans1(4));
 console.log(ans2(4,5));
