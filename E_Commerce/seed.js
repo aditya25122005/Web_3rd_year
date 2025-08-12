@@ -36,7 +36,7 @@ const products=[
 ]
 async function seedDB(){
     await Product.insertMany(products);
-    console.log("Data Seedes successfully");
+    console.log("Data Seeded successfully");
     
 }
 
