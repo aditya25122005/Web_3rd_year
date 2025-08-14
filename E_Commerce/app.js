@@ -4,8 +4,9 @@ const path= require('path');
 const seedDB=require('./seed')
 const mongoose = require('mongoose');
 const productRoutes = require('./routes/product');
+const reviewRoutes = require('./routes/review');
 const ejsMate=require('ejs-mate');
-const methodOverride= require('method-override');
+const methodOverride= require('method-override');  // eg  used in Podt to delete conversion
 
 mongoose.connect('mongodb://127.0.0.1:27017/cartify')
 .then(()=>{
@@ -22,7 +23,7 @@ app.engine('ejs',ejsMate);   // tells Express to use engine ejs-mate for renderi
 app.set('view engine','ejs'); // view engine ka kaamm hai ejs file ko read karna   
 app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public'))); // for public folder
-app.use(express.urlencoded({extended:true}))
+app.use(express.urlencoded({extended:true}))   // req.body se content lene ke liye
 app.use(methodOverride('_method'));
 
 
@@ -33,7 +34,7 @@ app.use(methodOverride('_method'));
 // seedDB();
 
 app.use(productRoutes); // so that har incoming req ke liye path check kiya jaye
-
+app.use(reviewRoutes);
 app.listen(8080,()=>{
     console.log("Server connected at port 8080");
     

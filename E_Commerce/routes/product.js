@@ -28,7 +28,7 @@ router.post('/products',async(req,res)=>{
 // to show a particular product
 router.get('/products/:id', async(req,res)=>{
     let{id}=req.params;  // get id from the url
-    let foundProduct=await Product.findById(id); // get id from database
+    let foundProduct=await Product.findById(id).populate('reviews'); // get id from database
     res.render('products/show',{foundProduct})
 })
 
