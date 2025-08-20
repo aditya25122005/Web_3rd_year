@@ -12,7 +12,7 @@ const reviewSchema=new mongoose.Schema({
         trim:true,
     }
 
-})
+},{timestamps:true})
 
 
 const Review=mongoose.model('Review',reviewSchema)
