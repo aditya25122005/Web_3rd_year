@@ -16,6 +16,12 @@
         <h2><%=item.id %></h2>
         <h2><%=item.author %></h2>
         <h2><%=item.comment %></h2>
+        <a href="/blogs/<%=item.id %>">show</a>
+        <a href="/blogs/<%=item.id %>/edit">edit</a>
+        <a href="/blogs/<%=item.id %>/delete">delete</a>
+        <form action="/blogs/<%= item.id %>?_method=Delete" method="POST">
+            <button id="Delete">Delete</button>
+        </form>
         <hr>
     <%} %>
     

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1> Form For editting Blog</h1>
+    <form action="/blogs/<%=foundBlog.id %>?_method=PATCH" method="post">
+        <div>
+            <label for="author">Author:</label>
+            <input type="text" name="author" id="author" value="<%=foundBlog.author %>">
+        </div>
+        <div>
+            <label for="comment">Comment:</label>
+            <input type="text" name="comment" id="comment" value="<%=foundBlog.comment %>">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    
+</body>
+</html>
