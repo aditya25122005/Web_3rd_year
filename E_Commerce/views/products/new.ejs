@@ -3,28 +3,46 @@
 <%- include('../partials/navbar') %>
 <div class="row">
     <div class="col-6 mx-auto">
-        <form action="/products" method="post">
+        <form class=" row g-3 needs-validation" action="/products" method="post" novalidate>
 
             <div class="mb-3">
                 <label for="naam">Name:</label>
-                <input type="text" class="form-control" type="text" name="name" id="naam" placeholder="name of the product">
+                <input type="text" class="form-control" type="text" name="name" id="naam" placeholder="name of the product" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please give a product name.
+                    </div>
             </div>
 
 
             <div class="mb-3">
                 <label for="naam">Image:</label>
-                <input type="text" class="form-control" type="text" name="img" id="naam" placeholder="Image URL of the product">
+                <input type="text" class="form-control" type="text" name="img" id="naam" placeholder="Image URL of the product" required>
+                <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please give an image.
+                    </div>
             </div>
 
 
             <div class="mb-3">
                 <label for="paisa">Price:</label>
-                <input type="number" class="form-control" type="text" name="price" id="paisa" placeholder="Price of the product">
+                <input type="number" class="form-control" type="text" name="price" id="paisa" placeholder="Price of the product" required>
+                <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please give a price.
+                    </div>
             </div>
 
             <div class="mb-3">
                 <label for="desc">Description:</label>
-                <textarea  id="desc" rows="5" name="desc"  placeholder="Description of the product"> </textarea>
+                <textarea  id="desc" rows="5" name="desc"  placeholder="Description of the product" required> </textarea>
             </div>
 
             <button class="btn btn-sm btn-success">Add Product</button>
@@ -32,6 +50,28 @@
     </div>
 </div>
 
+<script>
+    //iife -->immediately invoked function expression
 
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
 </body>
 </html>
+
