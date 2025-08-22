@@ -7,6 +7,8 @@ const productRoutes = require('./routes/product');
 const reviewRoutes = require('./routes/review');
 const ejsMate=require('ejs-mate');
 const methodOverride= require('method-override');  // eg  used in Podt to delete conversion
+const flash= require('connect-flash');
+const session= require('express-session');
 
 mongoose.connect('mongodb://127.0.0.1:27017/cartify')
 .then(()=>{
@@ -18,13 +20,31 @@ mongoose.connect('mongodb://127.0.0.1:27017/cartify')
     console.log("DB connection error");
     console.log(err);
 })
-app.engine('ejs',ejsMate);   // tells Express to use engine ejs-mate for rendering ejs files
 
+let configSession={
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+//   cookie: { secure: true }
+}
+
+app.engine('ejs',ejsMate);   // tells Express to use engine ejs-mate for rendering ejs files
 app.set('view engine','ejs'); // view engine ka kaamm hai ejs file ko read karna   
 app.set('views',path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public'))); // for public folder
 app.use(express.urlencoded({extended:true}))   // req.body se content lene ke liye
 app.use(methodOverride('_method'));
+app.use(session(configSession));
+app.use(flash());
+app.use((req,res,next)=>{
+    res.locals.success= req.flash('success');
+    res.locals.error=req.flash('error');
+    next();
+})
+
+
+
+
 
 
 // seeding database

@@ -18,6 +18,7 @@ router.post('/products/:id/review',validateReview,async(req,res)=>{
     await review.save();   // save changes in DB(made new review)
     await product.save();  // save in DB(change in reviews array)
 
+    req.flash('success',"Review added successfully");
     res.redirect(`/products/${id}`);
     }
     catch(e){
