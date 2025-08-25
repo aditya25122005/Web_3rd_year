@@ -10,6 +10,7 @@ const validateProduct=(req,res,next)=>{
     next();
 }
 
+
 const validateReview = (req,res,next) => {
     let {rating,comment} = req.body;
     const {error} = reviewSchema.validate({rating, comment}); // ✅ use reviewSchema
