@@ -1,3 +1,4 @@
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Cartify</a>
@@ -27,10 +28,24 @@
           <a class="nav-link disabled" aria-disabled="true">Link</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+<div class="d-flex align-items-center" role="search">
+  <% if (!currentUser) { %>
+    <!-- Show login if user is not logged in -->
+    <a href="/login" class="nav-link mx-2">Login</a>
+  <% } else { %>
+    <!-- Show cart and logout if user is logged in -->
+    <a href="#" class="nav-link position-relative mx-2">
+      <i class="fa-solid fa-cart-shopping fa-lg"></i>
+      <!-- Optional badge for cart count -->
+      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+        2
+      </span>
+    </a>
+    <a href="/logout" class="nav-link mx-2">Logout</a>
+  <% } %>
+</div>
+
+
     </div>
   </div>
 </nav>

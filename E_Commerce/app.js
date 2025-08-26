@@ -31,7 +31,11 @@ let configSession={
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-//   cookie: { secure: true }
+  cookie: {
+    httpOnly:true,
+    expires: Date.now() + 24*7*60*60*1000,
+    maxAge:24*7*60*60*1000
+   }
 }
 
 app.engine('ejs',ejsMate);   // tells Express to use engine ejs-mate for rendering ejs files
@@ -50,13 +54,14 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req,res,next)=>{
+    res.locals.currentUser= req.user;
     res.locals.success= req.flash('success');
     res.locals.error=req.flash('error');
     next();
 })
 
 //Passport
-passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new localStrategy(User.authenticate()));
 
 
 
