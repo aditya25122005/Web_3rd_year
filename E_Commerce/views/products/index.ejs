@@ -1,37 +1,41 @@
 <% layout('layouts/boilerplate') %>
+<%- include('../partials/navbar') %> 
 
-<!-- From partials folder -->
-<%- include('../partials/navbar') %>  
-<%- include('../partials/flash') %>  
-<div class="container mt-4">
-  <div class="row">
-    <% for (let item of products) { %>
-      <div class="col-lg-4 col-md-6 mb-4 d-flex">
-        <div class="card flex-fill" style="width: 100%; min-height: 280px;">
-          <div class="row g-0 h-100">
-            <!-- Image Section -->
-            <div class="col-5">
-              <img src="<%= item.img %>" 
-     class="img-fluid rounded-start h-100 w-100" 
-     alt="<%= item.name %>" 
-     style="object-fit: contain; background-color: #f8f9fa; min-height: 250px;">
-            </div>
+<div class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4">Our Products</h1>
+    <p class="lead text-muted">Shop With Love</p>
+  </div>
 
-            <!-- Content Section -->
-            <div class="col-7">
-              <div class="card-body d-flex flex-column">
-                <h5 class="card-title"><%= item.name %></h5>
-                <h6 class="text-success">₹<%= item.price %></h6>
-                <p class="card-text"><%= item.desc %></p>
-                <a href="/products/<%=item._id%>" class="btn btn-info btn-sm mt-auto">View Product</a>
-                <p class="card-text mt-2">
-                  <small class="text-body-secondary"> <%= item.updatedAt %></small>
-                </p>
-                <form action="/product/<%= item._id%>?_method=DELETE"  method="POST">
-                    <button class="btn btn-sm btn-danger">Delete </button>
-                </form>
-              </div>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <% for(let item of products){ %>
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <!-- Product Image -->
+          <img src="<%= item.img %>" 
+               alt="<%= item.name %>" 
+               class="card-img-top" 
+               style="object-fit: contain; max-height: 250px; background:#f8f9fa;">
+
+          <!-- Product Body -->
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title"><%= item.name %></h5>
+            <p class="card-text text-muted"><%= item.desc %></p>
+            
+            <p class="mb-1"><strong>Price:</strong> ₹<%= item.price %></p>
+            <p class="mb-1"><strong>Average Rating:</strong> 
+              <%= item.avgRating.toFixed(1) %> ⭐
+            </p>
+
+            <div class="mt-auto d-flex justify-content-between gap-2">
+              <a href="/products/<%= item._id %>" class="btn btn-outline-primary btn-sm flex-fill">View</a>
+              <a href="/cart/add/<%= item._id %>" class="btn btn-success btn-sm flex-fill">Add to Cart</a>
             </div>
+          </div>
+
+          <!-- Card Footer -->
+          <div class="card-footer text-muted text-center">
+            Added by: <%= item.author?.username || "Admin" %>
           </div>
         </div>
       </div>
@@ -39,6 +43,22 @@
   </div>
 </div>
 
-
-</body>
-</html>
+<style>
+  body {
+    background: #ffffff; /* plain white background */
+  }
+  .card {
+    border-radius: 10px;
+    transition: transform 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  }
+  .card-title {
+    font-weight: 600;
+  }
+  .btn-sm {
+    font-weight: 500;
+  }
+</style>

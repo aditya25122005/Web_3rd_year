@@ -2,104 +2,128 @@
 <%- include('../partials/navbar') %>
 
 <div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="card shadow-lg border-0 rounded-3 mb-4">
-                <div class="row g-0">
-                    <!-- Displaying flash -->
-            <%- include('../partials/flash') %>    
-<!-- <div class="alert alert-success alert-dismissible fade show d-flex justify-content-between align-items-center" role="alert">
-  <% if (msg && msg.length) { %>
-    <strong><%= msg %></strong>
-  <% } %>
-  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-</div> -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      
+      <!-- Product Card -->
+      <div class="card shadow border-0 rounded-4 mb-5 overflow-hidden">
+        <div class="row g-0">
+          
+          <!-- Product Image -->
+          <div class="col-md-5 d-flex align-items-center justify-content-center p-4 bg-light">
+            <img src="<%= foundProduct.img %>" 
+                 class="img-fluid rounded" 
+                 alt="<%= foundProduct.name %>" 
+                 style="max-height: 450px; object-fit: contain;">
+          </div>
+          
+          <!-- Product Details -->
+          <div class="col-md-7 d-flex flex-column">
+            <div class="card-body p-4 flex-grow-1">
+              <h2 class="fw-bold mb-2"><%= foundProduct.name %></h2>
+              <h4 class="text-success fw-bold mb-3">₹<%= foundProduct.price %></h4>
+              <p class="card-text text-muted fs-6"><%= foundProduct.desc %></p>
+              
+              <!-- Ratings Summary -->
+              <div class="d-flex align-items-center mb-3">
+                <span class="badge bg-warning text-dark me-2">
+                  <i class="fas fa-star"></i> <%= foundProduct.avgRating || 0 %>
+                </span>
+                <span class="text-muted small">
+                  (<%= foundProduct.reviews.length %> reviews)
+                </span>
+              </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="card-footer bg-white border-0 p-3">
+              <div class="d-flex gap-2">
+                <a href="/products/<%= foundProduct._id %>/edit" 
+                   class="btn btn-outline-secondary flex-fill fw-semibold">
+                  <i class="fas fa-edit me-2"></i>Edit
+                </a>
+                <a href="#" 
+                   class="btn btn-warning flex-fill fw-semibold text-white">
+                  <i class="fas fa-bolt me-2"></i>Buy Now
+                </a>
+                <a href="#" 
+                   class="btn btn-dark flex-fill fw-semibold">
+                  <i class="fas fa-cart-plus me-2"></i>Add to Cart
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Review Section -->
+      <div class="card shadow border-0 rounded-4 p-4">
+        <h4 class="fw-bold mb-4 text-center">Leave a Review</h4>
         
-
-                    <div class="col-md-5 d-flex align-items-center justify-content-center p-3" style="background-color: #f0f2f5;">
-                        <img src="<%= foundProduct.img %>" 
-                             class="img-fluid rounded-start" 
-                             alt="<%= foundProduct.name %>" 
-                             style="max-height: 400px; object-fit: contain;">
-                    </div>
-                    <div class="col-md-7 d-flex flex-column">
-                        <div class="card-body p-4 flex-grow-1">
-                            <h1 class="card-title fw-bold mb-1"><%= foundProduct.name %></h1>
-                            <h4 class="text-success fw-bold mb-3">₹<%= foundProduct.price %></h4>
-                            <p class="card-text text-muted"><%= foundProduct.desc %></p>
-                        </div>
-                        <div class="card-footer bg-white border-0 p-3">
-                            <div class="d-flex justify-content-between align-items-center gap-2">
-                                <a href="/products/<%=foundProduct._id%>/edit" class="btn btn-outline-secondary w-100 fw-bold btn-sm">
-                                    <i class="fas fa-edit me-2"></i>Edit
-                                </a>
-                                <a href="#" class="btn btn-warning w-100 fw-bold btn-sm">
-                                    <i class="fas fa-shopping-bag me-2"></i>Buy Now
-                                </a>
-                                <a href="#" class="btn btn-secondary w-100 fw-bold btn-sm">
-                                    <i class="fas fa-cart-plus me-2"></i>Add to Cart
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Review Form -->
+        <form action="/products/<%= foundProduct._id %>/review" method="POST" class="mb-4">
+          <div class="mb-3">
+            <fieldset class="starability-basic">
+              <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
+              <input type="radio" id="first-rate1" name="rating" value="1" />
+              <label for="first-rate1" title="Terrible">1 star</label>
+              <input type="radio" id="first-rate2" name="rating" value="2" />
+              <label for="first-rate2" title="Not good">2 stars</label>
+              <input type="radio" id="first-rate3" name="rating" value="3" />
+              <label for="first-rate3" title="Average">3 stars</label>
+              <input type="radio" id="first-rate4" name="rating" value="4" />
+              <label for="first-rate4" title="Very good">4 stars</label>
+              <input type="radio" id="first-rate5" name="rating" value="5" />
+              <label for="first-rate5" title="Amazing">5 stars</label>
+            </fieldset>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold" for="comment">Comment:</label>
+            <textarea class="form-control" rows="3" name="comment" id="comment" placeholder="Share your experience..."></textarea>
+          </div>
+          
+          <div class="d-grid">
+            <button class="btn btn-success btn-lg fw-semibold">Submit Review</button>
+          </div>
+        </form>
+        
+        <!-- Reviews List -->
+        <div class="mt-4">
+          <h5 class="fw-bold mb-3">Customer Reviews</h5>
+          <% if (foundProduct.reviews.length === 0) { %>
+            <p class="text-muted">No reviews yet. Be the first one!</p>
+          <% } %>
+          
+          <% for(let review of foundProduct.reviews){ %>
+            <div class="card border-0 shadow-sm mb-3">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <h6 class="fw-bold mb-0"><i class="fas fa-user-circle me-1"></i> <%= review.author %></h6>
+                  <% if (review.createdAt) { %>
+                    <small class="text-muted">
+                      <%= new Date(review.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) %>
+                    </small>
+                  <% } %>
                 </div>
-            </div>
-
-            <div class="card p-4 shadow-lg border-0 rounded-3">
-                <h4 class="fw-bold text-center mb-3">Leave a review</h4>
-                <form action="/products/<%=foundProduct._id%>/review" method="POST">
-                    <div class="mb-3">
-                       <fieldset class="starability-basic">
-
-  <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="0" checked aria-label="No rating." />
-  <input type="radio" id="first-rate1" name="rating" value="1" />
-  <label for="first-rate1" title="Terrible">1 star</label>
-  <input type="radio" id="first-rate2" name="rating" value="2" />
-  <label for="first-rate2" title="Not good">2 stars</label>
-  <input type="radio" id="first-rate3" name="rating" value="3" />
-  <label for="first-rate3" title="Average">3 stars</label>
-  <input type="radio" id="first-rate4" name="rating" value="4" />
-  <label for="first-rate4" title="Very good">4 stars</label>
-  <input type="radio" id="first-rate5" name="rating" value="5" />
-  <label for="first-rate5" title="Amazing">5 stars</label>
-
-
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label" for="comment">Comment:</label>
-                        <textarea class="form-control" rows="3" name="comment" id="comment"></textarea>
-                    </div>
-                    <div class="d-grid">
-                        <button class="btn btn-success btn-lg">Add Review</button>
-                    </div>
+                <div class="mb-2">
+                  <% for(let i = 0; i < review.rating; i++) { %>
+                    <i class="fas fa-star text-warning"></i>
+                  <% } %>
+                  <% for(let i = review.rating; i < 5; i++) { %>
+                    <i class="far fa-star text-warning"></i>
+                  <% } %>
+                </div>
+                <p class="mb-2"><%= review.comment %></p>
+               <form action="/products/<%= foundProduct._id %>/review/<%= review._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger">Delete</button>
                 </form>
-
-
-<div class="my-3">
-    <% for(let review of foundProduct.reviews){ %>
-        <div class="card mb-3">
-            <div class="card-body">
-                <h5 class="card-title"><%= review.author %></h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    Rating:
-                    <% for(let i = 0; i < review.rating; i++) { %>
-                        ⭐
-                    <% } %>
-                </h6>
-                <p class="card-text"><%= review.comment %></p>
-<% if (review.createdAt) { %>
-  <p><%= new Date(review.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) %></p>
-<% } %>
-                <a href="#" class="btn btn-primary">Delete</a>
+              </div>
             </div>
+          <% } %>
         </div>
-    <% } %>
-</div>
-
-
-            </div>
-        </div>
+      </div>
+      
     </div>
+  </div>
 </div>
-</body>
-</html>

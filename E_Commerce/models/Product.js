@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const Review=require('./Review')
+const Review=require('./review')
 const productSchema=new mongoose.Schema({
 
     name: {
@@ -21,6 +21,14 @@ const productSchema=new mongoose.Schema({
     desc:{
         type:String,
         trim:true
+    },
+    avgRating:{
+        type:Number,
+        default:0
+    },
+    author:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
     },
     reviews:[
         {

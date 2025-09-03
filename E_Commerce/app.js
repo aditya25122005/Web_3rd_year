@@ -77,7 +77,7 @@ app.use(productRoutes); // so that har incoming req ke liye path check kiya jaye
 app.use(reviewRoutes);
 app.use(authRoutes);
 
-app.listen(8080,()=>{
+app.listen(8085,()=>{
     console.log("Server connected at port 8080");
     
 })

@@ -1,6 +1,7 @@
 const express= require('express');
 const Product = require('../models/Product');
-const Review = require('../models/Review');
+const Review = require('../models/review');
+
 
 const router=express.Router();// mini instance
 const {validateProduct}=require('../middleware');
@@ -36,7 +37,7 @@ router.post('/products',validateProduct,isLoggedIn,async(req,res)=>{
     try{
     let{name,img,price,desc}=req.body;
     await Product.create({name,img,price,desc}) // add in database
-        req.flash('success','Product added successfully')
+    req.flash('success','Product added successfully')
     res.redirect('/products');
     }
     catch(e){
@@ -98,7 +99,7 @@ router.delete('/product/:id',isLoggedIn, async(req,res)=>{
 
     
     await Product.findByIdAndDelete(id);
-        req.flash('success','Product deleted successfully')
+    req.flash('success','Product deleted successfully')
     res.redirect('/products');
     }
     catch(e){

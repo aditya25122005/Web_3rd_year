@@ -1,51 +1,63 @@
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<!-- FontAwesome (already included by you) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Cartify</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+    
+    <!-- Brand with Icon -->
+    <a class="navbar-brand d-flex align-items-center fw-bold" href="/products">
+      <i class="fa-solid fa-bag-shopping me-2"></i> Cartify
+    </a>
+
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" 
+      aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+
+    <!-- Navbar Links -->
     <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/products">Home</a>
+          <a class="nav-link active" href="/products"><i class="fa-solid fa-house me-1"></i> Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="../product/new">New</a>
+          <a class="nav-link" href="/product/new"><i class="fa-solid fa-plus me-1"></i> New</a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Products
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            <i class="fa-solid fa-box-open me-1"></i> Products
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">All Products</a></li>
+            <li><a class="dropdown-item" href="#">Categories</a></li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+            <li><a class="dropdown-item" href="#">Best Sellers</a></li>
           </ul>
         </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Link</a>
-        </li>
       </ul>
-<div class="d-flex align-items-center" role="search">
-  <% if (!currentUser) { %>
-    <!-- Show login if user is not logged in -->
-    <a href="/login" class="nav-link mx-2">Login</a>
-  <% } else { %>
-    <!-- Show cart and logout if user is logged in -->
-    <a href="#" class="nav-link position-relative mx-2">
-      <i class="fa-solid fa-cart-shopping fa-lg"></i>
-      <!-- Optional badge for cart count -->
-      <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-        2
-      </span>
-    </a>
-    <a href="/logout" class="nav-link mx-2">Logout</a>
-  <% } %>
-</div>
 
-
+      <!-- Right Side (Login / Cart / Logout) -->
+      <div class="d-flex align-items-center">
+        <% if (!currentUser) { %>
+          <!-- Show login if user is not logged in -->
+          <a href="/login" class="btn btn-light btn-sm px-3 me-2">
+            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+          </a>
+        <% } else { %>
+          <!-- Show cart and logout if user is logged in -->
+          <a href="#" class="btn btn-outline-light position-relative me-2">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <!-- Optional badge for cart count -->
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              2
+            </span>
+          </a>
+          <a href="/logout" class="btn btn-light btn-sm px-3">
+            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+          </a>
+        <% } %>
+      </div>
     </div>
   </div>
 </nav>
