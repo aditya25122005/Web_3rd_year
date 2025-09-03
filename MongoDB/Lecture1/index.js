@@ -1,7 +1,7 @@
 const express= require('express');
 const app= express();
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://aditya25pda:rtw4ICPPvO3W5tf2@cluster0.xxxsrdy.mongodb.net/')
+mongoose.connect('mongodb://localhost:27017/demo')
 .then(()=>{
     console.log("DB connected ");
 })
