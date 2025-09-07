@@ -1,63 +1,182 @@
-<!-- FontAwesome (already included by you) -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg sticky-top py-3">
+    <div class="container-fluid">
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-  <div class="container-fluid">
-    
-    <!-- Brand with Icon -->
-    <a class="navbar-brand d-flex align-items-center fw-bold" href="/products">
-      <i class="fa-solid fa-bag-shopping me-2"></i> Cartify
-    </a>
+        <!-- Brand -->
+        <a class="navbar-brand fw-bold d-flex align-items-center text-light" href="/products" style="font-size: 1.5rem; letter-spacing: 1px;">
+            <i class="fa-solid fa-bag-shopping me-2 fs-4 text-warning"></i>
+            <span class="logo-text">Cartify</span>
+        </a>
 
-    <!-- Mobile Toggle -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" 
-      aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <!-- Navbar Links -->
-    <div class="collapse navbar-collapse" id="navbarScroll">
-      <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll">
-        <li class="nav-item">
-          <a class="nav-link active" href="/products"><i class="fa-solid fa-house me-1"></i> Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/product/new"><i class="fa-solid fa-plus me-1"></i> New</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-            <i class="fa-solid fa-box-open me-1"></i> Products
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">All Products</a></li>
-            <li><a class="dropdown-item" href="#">Categories</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Best Sellers</a></li>
-          </ul>
-        </li>
-      </ul>
+        <div class="collapse navbar-collapse justify-content-between" id="mainNavbar">
 
-      <!-- Right Side (Login / Cart / Logout) -->
-      <div class="d-flex align-items-center">
-        <% if (!currentUser) { %>
-          <!-- Show login if user is not logged in -->
-          <a href="/login" class="btn btn-light btn-sm px-3 me-2">
-            <i class="fa-solid fa-right-to-bracket me-1"></i> Login
-          </a>
-        <% } else { %>
-          <!-- Show cart and logout if user is logged in -->
-          <a href="#" class="btn btn-outline-light position-relative me-2">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <!-- Optional badge for cart count -->
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              2
-            </span>
-          </a>
-          <a href="/logout" class="btn btn-light btn-sm px-3">
-            <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
-          </a>
-        <% } %>
-      </div>
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0 gap-lg-4">
+                <li class="nav-item">
+                    <a class="nav-link fw-semibold text-light nav-link-custom" href="/products">
+                        <i class="fa-solid fa-house me-1"></i> Home
+                    </a>
+                </li>
+
+                <% if(currentUser && currentUser.role==='seller'){ %>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold text-light nav-link-custom" href="/product/new">
+                            <i class="fa-solid fa-plus me-1"></i> Add Product
+                        </a>
+                    </li>
+                <% } %>
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link fw-semibold text-light nav-link-custom dropdown-toggle" href="#" id="productsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-box-open me-1"></i> Products
+                    </a>
+                    <ul class="dropdown-menu border-0 shadow-lg rounded-3 dropdown-dark">
+                        <li><a class="dropdown-item" href="/products">All Products</a></li>
+                        <li><a class="dropdown-item" href="#">Categories</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Best Sellers</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <% if (currentUser) { %>
+                    <span class="fw-semibold text-light d-none d-lg-inline greeting-effect">
+                        👋 Hello, <%= currentUser.username %>
+                    </span>
+
+                    <a href="/user/cart" class="btn btn-warning position-relative rounded-circle shadow-sm p-2 cart-btn-effect">
+                        <i class="fa-solid fa-cart-shopping text-dark"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            <%= currentUser.cart ? currentUser.cart.length : 0 %>
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
+                    </a>
+
+                    <a href="/logout" class="btn btn-outline-warning rounded-pill px-4 fw-semibold logout-btn-effect">
+                        <i class="fa-solid fa-right-from-bracket me-1"></i> Logout
+                    </a>
+                <% } else { %>
+                    <a href="/login" class="btn btn-outline-warning rounded-pill px-4 fw-semibold login-btn-effect">
+                        <i class="fa-solid fa-right-to-bracket me-1"></i> Login
+                    </a>
+                    <a href="/register" class="btn btn-warning text-dark rounded-pill px-4 fw-semibold shadow-sm register-btn-effect">
+                        <i class="fa-solid fa-user-plus me-1"></i> Sign Up
+                    </a>
+                <% } %>
+            </div>
+        </div>
     </div>
-  </div>
 </nav>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .navbar {
+        background-color: rgba(33, 37, 41, 0.95) !important;
+        backdrop-filter: blur(5px);
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    .navbar-brand {
+        transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+        transform: scale(1.05);
+    }
+
+    .logo-text {
+        color: #ffc107;
+        transition: color 0.3s ease;
+    }
+
+    .nav-link-custom {
+        position: relative;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .nav-link-custom:hover {
+        color: #ffc107 !important;
+        transform: translateY(-2px);
+    }
+
+    .nav-link-custom::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background-color: #ffc107;
+        bottom: -5px;
+        left: 0;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .nav-link-custom:hover::before {
+        transform: scaleX(1);
+    }
+
+    .dropdown-menu.dropdown-dark {
+        background-color: #212529;
+        border: 1px solid #495057;
+    }
+
+    .dropdown-menu.dropdown-dark .dropdown-item {
+        color: #adb5bd;
+    }
+
+    .dropdown-menu.dropdown-dark .dropdown-item:hover {
+        background-color: #343a40;
+        color: #ffc107;
+    }
+
+    .cart-btn-effect {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .cart-btn-effect:hover {
+        transform: scale(1.1) rotate(5deg);
+        background-color: #ffca2c !important;
+    }
+
+    .login-btn-effect, .logout-btn-effect, .register-btn-effect {
+        transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+    }
+
+    .login-btn-effect:hover, .logout-btn-effect:hover {
+        background-color: #ffc107;
+        color: #212529 !important;
+        transform: translateY(-2px);
+    }
+
+    .register-btn-effect:hover {
+        background-color: #e0a800 !important;
+        transform: translateY(-2px);
+    }
+
+    .greeting-effect {
+        animation: fadeIn 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

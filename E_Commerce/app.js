@@ -1,3 +1,6 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config();
+}
 const express= require('express');
 const app= express();
 const path= require('path');
@@ -14,9 +17,12 @@ const User= require('./models/User.js');
 const productRoutes = require('./routes/product');
 const reviewRoutes = require('./routes/review');
 const authRoutes= require('./routes/auth.js');
+const cartRoutes= require('./routes/cart.js');
+const homeRoutes = require('./routes/index');
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/cartify')
+const dbURL= process.env.dbURL || 'mongodb://127.0.0.1:27017/cartify'
+mongoose.set('strictQuery',true);
+mongoose.connect(dbURL)
 .then(()=>{
     console.log("DB Connected Successfully");
     
@@ -76,6 +82,10 @@ passport.use(new localStrategy(User.authenticate()));
 app.use(productRoutes); // so that har incoming req ke liye path check kiya jaye
 app.use(reviewRoutes);
 app.use(authRoutes);
+app.use(cartRoutes);
+app.use('/', homeRoutes);
+
+
 
 app.listen(8085,()=>{
     console.log("Server connected at port 8080");

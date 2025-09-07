@@ -22,10 +22,6 @@ const productSchema=new mongoose.Schema({
         type:String,
         trim:true
     },
-    avgRating:{
-        type:Number,
-        default:0
-    },
     author:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
@@ -35,7 +31,11 @@ const productSchema=new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId, // type of review id
             ref:'Review' // which Model
         }
-    ]
+    ],
+    autor:{
+        type: mongoose.Schema.Types.ObjectId, // type of review id
+        ref:'User'
+    }
 
 })
 
@@ -47,6 +47,16 @@ productSchema.post('findOneAndDelete',async function(product){
     }
 })
 
+
+//avg rating
+productSchema.virtual('avgRating').get(function () {
+    // Check if reviews exist and if it's an array with at least one element
+    if (this.reviews && Array.isArray(this.reviews) && this.reviews.length > 0) {
+        const totalRating = this.reviews.reduce((sum, review) => sum + review.rating, 0);
+        return parseFloat((totalRating / this.reviews.length).toFixed(1)); 
+    }
+    return 0; // Return 0 if there are no reviews or the array is invalid
+});
 const Product=mongoose.model('Product',productSchema)
 
 module.exports=Product;

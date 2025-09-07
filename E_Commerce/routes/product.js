@@ -4,15 +4,20 @@ const Review = require('../models/review');
 
 
 const router=express.Router();// mini instance
-const {validateProduct}=require('../middleware');
-const {validateReview,isLoggedIn}= require('../middleware');
+const {validateProduct, isProductAuthor}=require('../middleware');
+const {validateReview,isLoggedIn,isSeller}= require('../middleware');
+const User = require('../models/User');
 
 // to show all the products
 router.get('/products',isLoggedIn,async(req,res)=>{
     // Jo bhejna hai wo database se nikalenge
     try{
-    let products=await Product.find({});
-    res.render('products/index',{products}); // render ke liye kuch bhejna padega
+    let products=await Product.find({}).populate('reviews').populate('author');
+    let user=null;
+    if(req.user){
+        user=await User.findById(req.user._id).populate('wishlist')
+    }
+    res.render('products/index',{products,currentuser:user}); // render ke liye kuch bhejna padega
     }
     catch(e){
         res.status(500).render('error',{err:e.message});
@@ -33,10 +38,10 @@ router.get('/product/new',isLoggedIn,(req,res)=>{
 
 
 // to actually add the product
-router.post('/products',validateProduct,isLoggedIn,async(req,res)=>{
+router.post('/products',validateProduct,isLoggedIn,isSeller,async(req,res)=>{
     try{
     let{name,img,price,desc}=req.body;
-    await Product.create({name,img,price,desc}) // add in database
+    await Product.create({name,img,price,desc,author:req.user._id}) // add in database
     req.flash('success','Product added successfully')
     res.redirect('/products');
     }
@@ -89,7 +94,7 @@ router.patch('/products/:id',validateProduct,isLoggedIn,async(req,res)=>{
 
 // to delete a product
 
-router.delete('/product/:id',isLoggedIn, async(req,res)=>{
+router.delete('/product/:id',isLoggedIn, isSeller,isProductAuthor,async(req,res)=>{
     try{
     let {id} = req.params;
     const product=await Product.findById(id);
@@ -107,5 +112,30 @@ router.delete('/product/:id',isLoggedIn, async(req,res)=>{
     }
 })
 
+
+
+// Route to handle product liking/unliking
+router.post('/products/:id/like', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(req.user._id);
+        const isLiked = user.wishlist.includes(id);
+
+        if (isLiked) {
+            // Remove the product from the user's wishlist
+            user.wishlist = user.wishlist.filter(item => item.toString() !== id);
+        } else {
+            // Add the product to the user's wishlist
+            user.wishlist.push(id);
+        }
+
+        await user.save();
+        res.status(200).json({ isLiked: !isLiked });
+
+    } catch (e) {
+        // Handle potential errors (e.g., user not found)
+        res.status(500).json({ error: e.message });
+    }
+});
 
 module.exports=router;
