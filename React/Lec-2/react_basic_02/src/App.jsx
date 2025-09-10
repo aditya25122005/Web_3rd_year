@@ -1,12 +1,12 @@
-import Sam  from "./components/Sam"
-
+import Sam from "./components/Sam"
 function App(){
-  return(
-    <div>
-      <h1>Hello From App</h1>
-      <Sam/>
-    </div>
-  )
+
+    return (
+        <div>
+            <h1>Hello</h1>
+            <Sam/>
+        </div> 
+    )
+
 }
-                                                                             
-export default App
+export default App;
